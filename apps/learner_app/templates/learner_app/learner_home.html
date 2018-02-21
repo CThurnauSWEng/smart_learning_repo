@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>User</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'learner_app/css/style.css' %}" media="screen" title="no title"  charset="utf-8">
+    </head>
+    <body>
+        <div>
+            <a href="/user/logout" class="navbar1">Logout</a>
+        </div>
+        <div class="oneperpage">
+            <h3 class="indent_p">Hello {{ this_user.first_name }}</h3></br>
+        </div> 
+        <a href="/learner/learner_dashboard">Learner Dashboard</a>
+        <a href="/editor/editor_dashboard">Editor Dashboard</a>
+    </body>
+</html>

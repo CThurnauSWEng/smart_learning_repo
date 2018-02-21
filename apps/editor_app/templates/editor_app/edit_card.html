@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>User</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'editor_app/css/style.css' %}" media="screen" title="no title"  charset="utf-8">
+    </head>
+    <body>
+        <div>
+            <a href="/editor/editor_dashboard" class="navbar1">Editor Dashboard</a>
+            <a href="/editor/edit_subject/{{ request.session.subject_id }}" class="navbar2">Back to Subject</a>
+            <a href="/user/logout" class="navbar2">Logout</a>
+        </div>
+        <div class="oneperpage">
+            <h3>Edit Card</h3> 
+            <p>card id: {{ this_card.id }}</p>
+            <p>card question: {{ this_card.question }}</p>
+            <p>card answer: {{ this_card.answer }}</p>
+            <p>card hint: {{ this_card.hint }}</p>
+            <img src="/static/editor_app/{{ this_card.img }}" alt="orm image" height=200 width=200>            
+        </div>
+    </body>
+</html>

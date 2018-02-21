@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>User</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'learner_app/css/style.css' %}" media="screen" title="no title"  charset="utf-8">
+    </head>
+    <body>
+        <div>
+            <a href="/user/logout" class="navbar1">Logout</a>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Subject Title</th>
+                    <th>Updated At</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for subject in this_user.subjects_editing.all %}
+                <tr>
+                    <td>{{subject.title}}</td>                        
+                    <td>{{subject.updated_at}}</td>
+                    <td><a href="/editor/edit_subject/{{subject.id}}">Edit</a></td>
+                    <td>delete</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="/learner/learner_home">Home</a>
+        <form action="/editor/create_subject" method="POST" >
+            {% csrf_token %} 
+            <input type="submit" name="" value="Create a New Subject" class="button3">
+        </form>        
+    </body>
+</html>

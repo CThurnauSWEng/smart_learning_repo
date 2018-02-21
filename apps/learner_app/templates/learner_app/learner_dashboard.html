@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>User</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'learner_app/css/style.css' %}" media="screen" title="no title"  charset="utf-8">
+    </head>
+    <body>
+        <div>
+            <a href="/user/logout" class="navbar2">Logout</a>
+            <a href="/learner/learner_home" class="navbar1">Home</a>
+        </div>
+        <div class="oneperpage">
+            <h3 class="indent_p">Hello {{ this_user.first_name }}</h3></br>
+            <p>Here is a list of your subjects. Each entry on list has</p>
+            <p>link to quizzing page for that subject</p></br>
+            <p>Here a link to a page showing all available subjects </p>
+            <p>so you can add one to your dashboard</p>
+        </div> 
+    </body>
+</html>

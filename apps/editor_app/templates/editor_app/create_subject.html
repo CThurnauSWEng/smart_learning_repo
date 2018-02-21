@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>User</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'editor_app/css/style.css' %}" media="screen" title="no title"  charset="utf-8">
+    </head>
+    <body>
+        <div>
+            <a href="/user/logout" class="navbar1">Logout</a>
+        </div>
+        <div class="oneperpage">
+            <h3>Hello {{ this_user.first_name }}</h3></br>
+            <h3>Create a New Subject</h3> 
+            <form action="/editor/process_create_subject" method="POST">
+                {% csrf_token %}
+                <label>Subject: (Enter a short title here)</label>
+                <input type="text" name="title" value="">
+                <label>Desciption:</label>
+                <input type="textarea" name="description" value="">
+                <input type="hidden" name="user_id" value="{{ request.session.user_id }}">
+                <input class="button3" type="submit" name = "" value="Create subject">
+            </form>
+            {% for error in request.session.errors %}
+                <p>{{ error }}</p>
+            {% endfor %}                        
+        </div>
+    </body>
+</html>
