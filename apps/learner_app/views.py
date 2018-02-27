@@ -45,17 +45,58 @@ def start_quiz(request, subject_id):
         }
         card_stats.append(card_object)
 
+
     request.session['cur_subject_id']   = subject_id
     request.session['card_stats']       = card_stats
+    request.session['card_stats_idx']   = 0
+    request.session['card_id']          = card_stats[0]['card_id']
+    card_stats[0]['card_visited']       = True
+
+    for data in card_stats:
+        print data['card_id']
+        print data['card_visited']
+        print data['answer_correct']
 
     cur_card = Card.objects.get(id=card_stats[0]['card_id'])
     context = {
+        'status'   : 'none',
         'cur_card' : cur_card
     }
 
-    return render (request, 'learner_app/quiz_card.html', context)
+    return render (request, 'editor_app/quiz_card.html', context)
 
-def process_check_answer(request, subject_id):
-    return render (request, 'learner_app/quiz_card.html')
+def check_answer(request):
+    cur_card = Card.objects.get(id=request.session['card_id'])
+    if request.POST['card_answer'] == request.POST['learner_answer']:
+        context = {
+            'status'    : 'Correct!',
+            'cur_card'  : cur_card
+        }
+    else:
+        context = {
+            'status'    : 'Please Try Again',
+            'cur_card'  : cur_card
+        }   
+    return render (request, 'editor_app/quiz_card.html', context)
+
+def display_next_card(request):
+    if request.session['card_stats_idx'] != (len(request.session['card_stats'])-1):
+        request.session['card_stats_idx'] += 1
+        request.session['card_id'] = request.session['card_stats'][request.session['card_stats_idx']]['card_id']
+        request.session['card_stats'][request.session['card_stats_idx']]['card_visited'] = True
+        request.session['card_stats'][request.session['card_stats_idx']]['answer_correct'] = True
+    else:
+        # no more cards
+        # temporarily return to dashboard. 
+        # future - redirect or render page to display score
+        return redirect('/learner/learner_dashboard')
+    
+    cur_card = Card.objects.get(id=request.session['card_id'])
+    context = {
+        'status'   : 'none',
+        'cur_card' : cur_card
+    }
+    return render (request, 'editor_app/quiz_card.html', context)
+    
 
 

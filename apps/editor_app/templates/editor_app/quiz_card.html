@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>User</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'learner_app/css/style.css' %}" media="screen" title="no title"  charset="utf-8">
+    </head>
+    <body>
+        <div>
+            <a href="/learner/learner_dashboard" class="navbar1">Home</a>
+            <a href="/user/logout" class="navbar2">Logout</a>
+        </div>
+        <div class="oneperpage">
+            <h3>Quiz Card</h3> 
+            <p>Subject ID: {{ request.session.cur_subject_id }}
+            <p>Card ID: {{ cur_card.id }}</p>
+            <p>Question: {{ cur_card.question }}
+            <p>Hint: {{ cur_card.hint }}</p>
+            <img src="/static/editor_app/{{ cur_card.img }}" alt="card image" height=200 width=200>            
+            <label>Answer:</label>
+            <form action="/learner/check_answer/" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="card_answer" value={{cur_card.answer}}>
+                <input type="text" name="learner_answer" value="">
+                <input type="submit" name="" value="Submit Answer">
+            </form>
+            {% if status != 'none'%}
+                <p>{{ status }}</p>
+            {% endif %}
+            <form action="/learner/display_next_card" method="post">
+                {% csrf_token %}
+                <input type="submit" name="" value="Next Card">
+            </form>
+       </div>
+    </body>
+</html>
