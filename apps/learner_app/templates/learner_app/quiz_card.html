@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>User</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'learner_app/css/style.css' %}" media="screen" title="no title"  charset="utf-8">
+    </head>
+    <body>
+        <div>
+            <a href="/learner/learner_dashboard" class="navbar1">Home</a>
+            <a href="/user/logout" class="navbar2">Logout</a>
+        </div>
+        <div class="oneperpage">
+            <h3>Quiz Card</h3> 
+            <p>Subject ID: {{ request.session.cur_subject_id }}
+            <p>Question: {{ cur_card.question }}
+            <p>Hint: {{ cur_card.hint }}
+            
+            
+       </div>
+    </body>
+</html>

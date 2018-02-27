@@ -8,15 +8,60 @@
     </head>
     <body>
         <div>
-            <a href="/user/logout" class="navbar2">Logout</a>
             <a href="/learner/learner_home" class="navbar1">Home</a>
+            <a href="/user/logout" class="navbar2">Logout</a>
         </div>
         <div class="oneperpage">
             <h3 class="indent_p">Hello {{ this_user.first_name }}</h3></br>
-            <p>Here is a list of your subjects. Each entry on list has</p>
-            <p>link to quizzing page for that subject</p></br>
-            <p>Here a link to a page showing all available subjects </p>
-            <p>so you can add one to your dashboard</p>
+            <h3> Your subjects: </h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Subject Title</th>
+                        <th>Description</th>
+                        <th>Created By</th>
+                        <th>Number of Cards</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for subject in this_user.subjects_studying.all %}
+                    <tr>
+                        <td>{{ subject.title }}</td>
+                        <td>{{ subject.description }}</td>
+                        <td>{{ subject.created_by.first_name }} {{ subject.created_by.last_name }}</td>
+                        <td>{{ subject.cards.all|length }} </td>
+                        <td>
+                            <a href="/learner/quiz/{{subject.id}}">Learn</a>
+                            <a href="/learner/remove/{{subject.id}}">Remove</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table></br>
+            <h3>Other subjects you may be interested in</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Subject Title</th>
+                        <th>Description</th>
+                        <th>Created By</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for subject in other_subjects %}
+                    <tr>
+                        <td>{{ subject.title }}</td>
+                        <td>{{ subject.description }}</td>
+                        <td>{{ subject.created_by.first_name }} {{ subject.created_by.last_name }}</td>
+                        <td>
+                            <a href="/learner/add_subject/{{subject.id}}">Add Subject</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div> 
     </body>
 </html>

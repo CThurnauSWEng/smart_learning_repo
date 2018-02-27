@@ -65,11 +65,10 @@ class UserManager(models.Manager):
             'status' : True
         }
         errors = []
-        hashedpwd = bcrypt.hashpw((post_data['password'].encode()), bcrypt.gensalt(5))
 
         user = User.objects.filter(email = post_data['email'])
 
-        if len(user) > 0:
+        if len(user) > 0:   # query set was not empty - i.e. there was a user
             # check this user's password
             user = user[0]
             if not bcrypt.checkpw(post_data['password'].encode(), user.password.encode()):
