@@ -1,44 +1,71 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html> 
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>User</title>
-        {% load static %}
-        <link rel="stylesheet" href="{% static 'user_app/css/style.css' %}" media="screen" title="no title"  charset="utf-8">
-    </head>
-    <body>
-        <div class="twoperpage">
-            <h3>Signin</h3>
-            <form action="/user/process_login" method="POST">
-                {% csrf_token %}
-                <label>Email Address:</label>
-                <input type="text" name="email" value="">
-                <label>Password:</label>
-                <input type="password" name="password" value="">
-                <input class="button" type="submit" name = "" value="Signin">
-            </form>
-        </div>
-        <div class="twoperpage">
-            <h3>Register</h3>
-            <form action="/user/process_register" method="POST">
-                {% csrf_token %}
-                <label>Email Address:</label>
-                <input type="text" name="email" value="">
-                <label>First Name:</label>
-                <input type="text" name="first_name" value="">
-                <label>Last Name:</label>
-                <input type="text" name="last_name" value="">
-                <label>Organization (optional):</label>
-                <input type="text" name="organization" value="">
-                <label>Password:</label>
-                <input type="password" name="password" value="">
-                <label>Password Confirmation:</label>
-                <input type="password" name="pwd_confirm" value="">
-                <input class="button" type="submit" name = "" value="Register">
-            </form>    
-        </div>
-        {% for error in request.session.errors %}
-            <p>{{ error }}</p>
-        {% endfor %}                        
-    </body>
+  <head>
+    <meta charset="utf-8">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'user_app/css/style.css' %}" media="screen" title="no title"  charset="utf-8">
+    <title>Love to Learn</title>
+  </head>
+  <body>
+  <div id="wrapper">
+    <div id="image-row">
+      <div class="sm-img med-img lg-img">
+        <img id="photo" src="static/user_app/images/transparent-heart.png" alt="misc photo">
+      </div>
+      <div class="sm-about med-about lg-about">
+          <div id="about-title">
+            <h3 class="fancy-text" >Love to Learn</h3>
+          </div>
+          <div id="about-text">  
+            <p>Learn faster and retain information longer by using these multi-dimensional flashcards.
+               These flashcards have images associated with them and provide hints. You will form more 
+               connections in your brain by forming these additional associations.
+            </p>
+            <p></p></br>
+            <a href="style.css">More...</a>
+          </div>
+      </div>
+    </div> <!-- image row-->
+    <div id="proj-wrapper">
+      <div class="sm-project med-project lg-project">
+          <h3>Signin</h3>
+          <form action="/user/process_login" method="POST">
+              {% csrf_token %}
+              <label>Email Address:</label>
+              <input type="text" name="email" value="">
+              <label>Password:</label>
+              <input type="password" name="password" value="">
+              <input class="button" type="submit" name = "" value="Signin">
+          </form>
+          {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+          {% endif %}
+      </div>
+      <div class="sm-project med-project lg-project">
+          <h3>Register</h3>
+          <form action="/user/process_register" method="POST">
+              {% csrf_token %}
+              <label>Email Address:</label>
+              <input type="text" name="email" value="">
+              <label>First Name:</label>
+              <input type="text" name="first_name" value="">
+              <label>Last Name:</label>
+              <input type="text" name="last_name" value="">
+              <label>Organization (optional):</label>
+              <input type="text" name="organization" value="">
+              <label>Password:</label>
+              <input type="password" name="password" value="">
+              <label>Password Confirmation:</label>
+              <input type="password" name="pwd_confirm" value="">
+              <input class="button" type="submit" name = "" value="Register">
+          </form>    
+      </div>
+      </div>
+    </div>
+  </div>
+  </body>
 </html>

@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
 from .models import User
+from django.contrib import messages
 
 # the index function is called when root is visited
 def index(request):
@@ -15,8 +16,9 @@ def process_login(request):
         request.session['user_id'] = response['user'].id
         return redirect('/learner/learner_home')
     else:
-        request.session['errors'] = response['errors']
-        return render(request, "user_app/index.html")
+        for error in response['errors']:
+            messages.error(request, error)
+        return redirect('/')
 
 
 def process_register(request):
@@ -33,11 +35,12 @@ def process_register(request):
         request.session['user_id'] = response['user'].id
         return redirect('/learner/learner_home')
     else:
-        request.session['errors'] = response['errors']
-        return render(request, "user_app/index.html")
+        for error in response['errors']:
+            messages.error(request, error)
+        return redirect('/')
 
 def logout(request):
     request.session['errors']  = []
     request.session['name']    = ''
     request.session['user_id'] = 0
-    return render(request, "user_app/index.html")
+    return redirect('/')
