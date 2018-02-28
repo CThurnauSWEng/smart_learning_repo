@@ -5,7 +5,11 @@
         <title>User</title>
         {% load static %}
         <link rel="stylesheet" href="{% static 'learner_app/css/style.css' %}" media="screen" title="no title"  charset="utf-8">
-    </head>
+        <script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+        </head>
     <body>
         <div>
             <a href="/learner/learner_dashboard" class="navbar1">Home</a>
@@ -28,10 +32,33 @@
             {% if status != 'none'%}
                 <p>{{ status }}</p>
             {% endif %}
+            {% if status == 'Please Try Again' %}
+                <button id="show_answer">Show Answer</button>
+            {% endif %}
+            <div id="show_answer_div"></div>
             <form action="/learner/display_next_card" method="post">
                 {% csrf_token %}
                 <input type="submit" name="" value="Next Card">
             </form>
        </div>
+       <script>
+            $('#show_answer').click(function(){
+                console.log('show_answer was clicked!')
+                $.ajax({
+                    url: '/learner/show_answer',
+                    success: function(serverResponse) {
+                        for (key in serverResponse[0].fields) {
+                            console.log("key: ", key);
+                        }
+                        console.log('success, serverResponse: ', serverResponse)
+                        console.log(serverResponse[0].fields.answer)
+                        res_str = '<p>Answer is '+serverResponse[0].fields.answer+'</p>'
+                        console.log(res_str)
+                        $('#show_answer_div').html(res_str)
+                    }
+                })
+            });
+    
+        </script>
     </body>
 </html>

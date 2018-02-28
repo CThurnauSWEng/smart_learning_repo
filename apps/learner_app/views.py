@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponse, redirect
 from ..user_app.models import User
 from ..editor_app.models import Subject, Card
+from django.core import serializers
 
 def learner_home(request):
     context = {
@@ -52,11 +53,6 @@ def start_quiz(request, subject_id):
     request.session['card_id']          = card_stats[0]['card_id']
     card_stats[0]['card_visited']       = True
 
-    for data in card_stats:
-        print data['card_id']
-        print data['card_visited']
-        print data['answer_correct']
-
     cur_card = Card.objects.get(id=card_stats[0]['card_id'])
     context = {
         'status'   : 'none',
@@ -98,5 +94,9 @@ def display_next_card(request):
     }
     return render (request, 'editor_app/quiz_card.html', context)
     
-
-
+def show_answer(request):
+    print "in show answer"
+    card = Card.objects.filter(id=request.session['card_id'])
+    card_json = serializers.serialize("json",card)
+    print "card_json: ", card_json
+    return HttpResponse(card_json, content_type='application/json')
