@@ -39,7 +39,8 @@ def edit_subject(request, subject_id):
 
     context = {
         'subject'   : this_subject,
-        'cards'     : cards
+        'cards'     : cards,
+        'num_cards' : len(cards)
     }
     return render(request, "editor_app/edit_subject.html", context)
 

@@ -7,10 +7,13 @@
         <link rel="stylesheet" href="{% static 'editor_app/css/style.css' %}" media="screen" title="no title"  charset="utf-8">
     </head>
     <body>
+      <div id="wrapper">
         <div>
-            <a href="/user/logout" class="navbar1">Logout</a>
+            <a href="/editor/editor_dashboard" class="navbar1">Editor Dashboard</a>
+            <a href="/user/logout" class="navbar2">Logout</a>
         </div>
         <div class="oneperpage">
+            <img id="logo_img" src="/static/learner_app/images/transparent-heart.png" alt="heart logo">
             <h3>Hello {{ this_user.first_name }}</h3></br>
             <h3>Create a New Subject</h3> 
             <form action="/editor/process_create_subject" method="POST">
@@ -26,5 +29,6 @@
                 <p>{{ error }}</p>
             {% endfor %}                        
         </div>
+      </div>
     </body>
 </html>

@@ -7,12 +7,15 @@
         <link rel="stylesheet" href="{% static 'editor_app/css/style.css' %}" media="screen" title="no title"  charset="utf-8">
     </head>
     <body>
+      <div id="wrapper">
         <div>
-            <a href="/editor/editor_dashboard" class="navbar2">Editor Dashboard</a>
-            <a href="/user/logout" class="navbar1">Logout</a>
+            <a href="/editor/editor_dashboard" class="navbar1">Editor Dashboard</a>
+            <a href="/user/logout" class="navbar2">Logout</a>
         </div>
+        <img id="logo_img" src="/static/learner_app/images/transparent-heart.png" alt="heart logo">
         <div class="oneperpage">
             <h3>Edit Subject: {{ subject.title }} with ID: {{ subject.id }}</h3> 
+            {% if num_cards > 0 %}
             <table>
                 <thead>
                     <tr>
@@ -30,7 +33,9 @@
                     {% endfor %}
                 </tbody>
             </table>
+            {% endif %}
             <a href="/editor/create_card">Add a new card</a>
         </div>
+      </div>
     </body>
 </html>
