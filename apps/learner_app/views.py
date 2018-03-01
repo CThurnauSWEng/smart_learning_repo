@@ -72,7 +72,7 @@ def start_quiz(request, subject_id):
         'cur_card' : cur_card
     }
 
-    return render (request, 'editor_app/quiz_card.html', context)
+    return render (request, 'learner_app/quiz_card.html', context)
 
 def check_answer(request):
     cur_card = Card.objects.get(id=request.session['card_id'])
@@ -101,7 +101,7 @@ def check_answer(request):
             'status'    : 'Please Try Again',
             'cur_card'  : cur_card
         }   
-    return render (request, 'editor_app/quiz_card.html', context)
+    return render (request, 'learner_app/quiz_card.html', context)
 
 def display_next_card(request):
     if request.session['card_stats_idx'] != (len(request.session['card_stats'])-1):
@@ -142,7 +142,7 @@ def display_next_card(request):
         'status'   : 'none',
         'cur_card' : cur_card
     }
-    return render (request, 'editor_app/quiz_card.html', context)
+    return render (request, 'learner_app/quiz_card.html', context)
     
 def show_answer(request):
     card = Card.objects.filter(id=request.session['card_id'])
