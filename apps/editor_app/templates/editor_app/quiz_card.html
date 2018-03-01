@@ -11,14 +11,15 @@
         crossorigin="anonymous"></script>
         </head>
     <body>
+      <div id="wrapper1">
         <div>
             <a href="/learner/learner_dashboard" class="navbar1">Home</a>
             <a href="/user/logout" class="navbar2">Logout</a>
         </div>
+        <img id="logo_img" src="/static/learner_app/images/transparent-heart.png" alt="heart logo">
+        <h1 id="greeting">{{ cur_card.subject.title }}</h1></br>
         <div class="oneperpage">
             <h3>Quiz Card</h3> 
-            <p>Subject ID: {{ request.session.cur_subject_id }}
-            <p>Card ID: {{ cur_card.id }}</p>
             <p>Question: {{ cur_card.question }}
             <p>Hint: {{ cur_card.hint }}</p>
             <img src="/static/editor_app/{{ cur_card.img }}" alt="card image" height=200 width=200>            
@@ -41,19 +42,20 @@
                 <input type="submit" name="" value="Next Card">
             </form>
        </div>
+    </div>
        <script>
             $('#show_answer').click(function(){
-                console.log('show_answer was clicked!')
+                // console.log('show_answer was clicked!')
                 $.ajax({
                     url: '/learner/show_answer',
                     success: function(serverResponse) {
                         for (key in serverResponse[0].fields) {
                             console.log("key: ", key);
                         }
-                        console.log('success, serverResponse: ', serverResponse)
-                        console.log(serverResponse[0].fields.answer)
-                        res_str = '<p>Answer is '+serverResponse[0].fields.answer+'</p>'
-                        console.log(res_str)
+                        // console.log('success, serverResponse: ', serverResponse)
+                        // console.log(serverResponse[0].fields.answer)
+                        res_str = '<p>Answer is: '+serverResponse[0].fields.answer+'</p>'
+                        // console.log(res_str)
                         $('#show_answer_div').html(res_str)
                     }
                 })

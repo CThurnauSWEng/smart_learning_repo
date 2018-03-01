@@ -11,13 +11,19 @@ def learner_home(request):
    
 
 def learner_dashboard(request):
+    # gather data about subjects this user is studying
     this_user = User.objects.get(id=request.session['user_id'])
+    this_users_subjects = this_user.subjects_studying.all()
+    num_subjects = len(this_users_subjects)
+
+    # gather list of subjects this user is not yet studying
     this_users_subjects_id = this_user.subjects_studying.all().values('id')
     other_subjects = Subject.objects.exclude(id__in=this_users_subjects_id)
 
     context = {
         'this_user'      : this_user,
-        'other_subjects' : other_subjects
+        'other_subjects' : other_subjects,
+        'num_subjects'   : num_subjects
     }
     return render(request, "learner_app/learner_dashboard.html",context)
 
@@ -38,6 +44,10 @@ def start_quiz(request, subject_id):
 
     card_stats = []
     cards = Card.objects.filter(subject=this_subject)
+
+    if len(cards) < 1:
+        return redirect('/learner/learner_dashboard')
+
     for card in cards:
         card_object = {
             'card_id'       : card.id,

@@ -7,12 +7,17 @@
         <link rel="stylesheet" href="{% static 'learner_app/css/style.css' %}" media="screen" title="no title"  charset="utf-8">
     </head>
     <body>
+      <div id="wrapper">
         <div>
-            <a href="/learner/learner_home" class="navbar1">Home</a>
+            <a href="/editor/editor_dashboard" class="navbar1">Editor Dashboard</a>
             <a href="/user/logout" class="navbar2">Logout</a>
         </div>
         <div class="oneperpage">
-            <h3 class="indent_p">Hello {{ this_user.first_name }}</h3></br>
+            <img id="logo_img" src="/static/learner_app/images/transparent-heart.png" alt="heart logo">
+            <h1 id="greeting">Hello {{ this_user.first_name }}</h1></br>
+            {% if num_subjects < 1 %}
+                <h3>Here is a list of subjects you might be interested in:</h3>
+            {% else %}
             <h3> Your subjects: </h3>
             <table>
                 <thead>
@@ -40,6 +45,7 @@
                 </tbody>
             </table></br>
             <h3>Other subjects you may be interested in</h3>
+            {% endif %}
             <table>
                 <thead>
                     <tr>
@@ -63,5 +69,6 @@
                 </tbody>
             </table>
         </div> 
+      </div>
     </body>
 </html>

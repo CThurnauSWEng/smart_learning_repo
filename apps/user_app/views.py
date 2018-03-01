@@ -14,7 +14,7 @@ def process_login(request):
         request.session['errors']  = []
         request.session['name']    = response['user'].first_name
         request.session['user_id'] = response['user'].id
-        return redirect('/learner/learner_home')
+        return redirect('/learner/learner_dashboard')
     else:
         for error in response['errors']:
             messages.error(request, error)
@@ -33,7 +33,7 @@ def process_register(request):
         request.session['errors']  = []
         request.session['name']    = response['user'].first_name
         request.session['user_id'] = response['user'].id
-        return redirect('/learner/learner_home')
+        return redirect('/learner/learner_dashboard')
     else:
         for error in response['errors']:
             messages.error(request, error)

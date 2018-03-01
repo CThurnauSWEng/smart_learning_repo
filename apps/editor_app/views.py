@@ -22,9 +22,13 @@ def process_create_subject(request):
         return render(request, "editor_app/create_subject.html")
 
 def editor_dashboard(request):
+    this_user = User.objects.get(id=request.session['user_id'])
+    this_users_subjects = this_user.subjects_editing.all()
+    num_subjects = len(this_users_subjects)
 
     context = {
-        'this_user'     : User.objects.get(id=request.session['user_id'])
+        'this_user'     : this_user,
+        'num_subjects'  : num_subjects
     }
     return render(request, "editor_app/editor_dashboard.html",context)
 
