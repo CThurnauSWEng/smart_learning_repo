@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>User</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'learner_app/css/style.css' %}" media="screen" title="no title"  charset="utf-8">
+    </head>
+    <body>
+        <div id="wrapper">
+            <div>
+                <a href="/learner/learner_dashboard" class="navbar1">Home</a>
+                <a href="/user/logout" class="navbar2">Logout</a>
+            </div>
+            <div class="oneperpage">
+                <img id="big_img" src="/static/learner_app/images/transparent-heart.png" alt="heart logo">
+                <h1 id="greeting"> {{ message }}!</h1></br>
+                <h2>Your Score: {{ percent_correct }}%</h2>
+            </div> 
+          </div>
+        </body>
+</html>

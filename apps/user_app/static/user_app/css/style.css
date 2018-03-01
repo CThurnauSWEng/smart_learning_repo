@@ -25,7 +25,7 @@
   .sm-about {
     width: 90%;
     background-color: none;
-    height: 274px;
+    height: 50px;
     margin: 10px;
   }
   .sm-project {
@@ -33,6 +33,15 @@
     height: 400px;
     background-color: none;
     margin: 10px;
+  }
+  .sm-project-sign {
+    width: 90%;
+    height: 170px;
+    background-color: none;
+    margin: 10px;
+  }
+  .sm-ab-text {
+    display: none;
   }
 }
 @media only screen and (min-width: 481px){
@@ -71,6 +80,17 @@
     display: inline-block;
     vertical-align: top;
   }
+  .med-project-sign {
+    width: 47%;
+    height: auto;
+    background-color: none;
+    margin: 10px;
+    display: inline-block;
+    vertical-align: top;
+  }
+  .med-ab-text {
+    width: 300px;
+  }
 }
 @media only screen and (min-width: 1024px){
   .lg-name {
@@ -108,6 +128,24 @@
     margin: 10px;
     display: inline-block;
     vertical-align: top;
+  }
+  .lg-project-sign {
+    width: 30%;
+    height: 710px;
+    background-color: none;
+    margin: 10px;
+    display: inline-block;
+    vertical-align: top;
+  }
+  .lg-ab-text {
+    width: 48%;
+    background-color: none;
+    height: 277px;
+    display: inline-block;
+    margin: 10px;
+    vertical-align: top;
+    position: relative;
+    top: 0px;
   }
 }
 #title-line {

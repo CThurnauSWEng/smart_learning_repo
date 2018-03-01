@@ -3,6 +3,8 @@ from ..user_app.models import User
 from ..editor_app.models import Subject, Card
 from django.core import serializers
 
+import math
+
 def learner_home(request):
     context = {
         'this_user' : User.objects.get(id=request.session['user_id'])
@@ -61,6 +63,7 @@ def start_quiz(request, subject_id):
     request.session['card_stats']       = card_stats
     request.session['card_stats_idx']   = 0
     request.session['card_id']          = card_stats[0]['card_id']
+    request.session['total_correct']    = 0
     card_stats[0]['card_visited']       = True
 
     cur_card = Card.objects.get(id=card_stats[0]['card_id'])
@@ -73,7 +76,22 @@ def start_quiz(request, subject_id):
 
 def check_answer(request):
     cur_card = Card.objects.get(id=request.session['card_id'])
-    if request.POST['card_answer'] == request.POST['learner_answer']:
+
+    card_answer = ""
+    for idx in range(0,len(cur_card.answer)):
+        if (cur_card.answer[idx] != " "):
+            card_answer = card_answer + cur_card.answer[idx]
+    clean_card_answer = card_answer.lower()
+
+    user_answer = ""
+    for idx in range(0,len(request.POST['learner_answer'])):
+        if (request.POST['learner_answer'][idx] != " "):
+            user_answer = user_answer + request.POST['learner_answer'][idx]
+    clean_user_answer = user_answer.lower()
+
+    if clean_user_answer == clean_card_answer:
+        request.session['total_correct'] += 1
+        request.session['card_stats'][request.session['card_stats_idx']]['answer_correct'] = True
         context = {
             'status'    : 'Correct!',
             'cur_card'  : cur_card
@@ -90,12 +108,34 @@ def display_next_card(request):
         request.session['card_stats_idx'] += 1
         request.session['card_id'] = request.session['card_stats'][request.session['card_stats_idx']]['card_id']
         request.session['card_stats'][request.session['card_stats_idx']]['card_visited'] = True
-        request.session['card_stats'][request.session['card_stats_idx']]['answer_correct'] = True
     else:
         # no more cards
-        # temporarily return to dashboard. 
-        # future - redirect or render page to display score
-        return redirect('/learner/learner_dashboard')
+        total_cards = float(len(request.session['card_stats']))
+        total_correct = float(request.session['total_correct'])
+        percent_correct = int(((total_correct/total_cards)*10000)/100)
+        # user can repeat a card if desired for practice, but the repeats should not
+        # result in a score greater than 100%
+        if percent_correct > 100:
+            percent_correct = 100
+
+        this_user = User.objects.get(id=request.session['user_id'])
+
+        if percent_correct > 90:
+            message = "Great Job " + this_user.first_name + "!"
+        elif percent_correct > 80:
+            message = "Good Job " + this_user.first_name + "!"
+        elif percent_correct > 70:
+            message = "Pretty good job, " + this_user.first_name
+        else:
+            message = "Thanks for playing " + this_user.first_name
+
+
+        context = {
+            'this_user'         : this_user,
+            'percent_correct'   : percent_correct,
+            'message'           : message
+        }
+        return render (request, 'learner_app/quiz_complete.html',context)
     
     cur_card = Card.objects.get(id=request.session['card_id'])
     context = {
@@ -105,8 +145,6 @@ def display_next_card(request):
     return render (request, 'editor_app/quiz_card.html', context)
     
 def show_answer(request):
-    print "in show answer"
     card = Card.objects.filter(id=request.session['card_id'])
     card_json = serializers.serialize("json",card)
-    print "card_json: ", card_json
     return HttpResponse(card_json, content_type='application/json')

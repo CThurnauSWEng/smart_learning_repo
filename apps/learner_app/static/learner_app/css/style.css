@@ -28,6 +28,11 @@ p,label,input {
     width: auto;
     display: inline-block;
 }
+#big_img {
+    height: 400px;
+    width: auto;
+    display: inline-block;
+}
 #greeting {
     margin-left: 20px;
     display: inline-block;
